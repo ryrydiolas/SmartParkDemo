@@ -1,19 +1,17 @@
 # SmartPark API
 
-## Overview
+REST API application for managing parking lots and vehicles.
 
-SmartPark is a REST API application for managing parking lots and vehicles.
-
-Features:
+## Features
 
 * Register parking lot
 * Register vehicle
-* Check-in vehicle
-* Check-out vehicle
+* Vehicle check-in
+* Vehicle check-out
 * View parking occupancy
 * View parked vehicles
 
-## Technology Used
+## Technology
 
 * Java 8
 * Spring Boot 2.6.15
@@ -24,13 +22,13 @@ Features:
 * Maven
 * Lombok
 
-## Project Creation
+## Project Setup
 
-Created using Spring Initializr:
+Created using **Spring Initializr**:
 
 https://start.spring.io/
 
-Dependencies added:
+Dependencies:
 
 * Spring Web
 * Spring Data JPA
@@ -52,7 +50,7 @@ Run:
 mvn spring-boot:run
 ```
 
-Application URL:
+Application:
 
 ```
 http://localhost:8080
@@ -60,7 +58,7 @@ http://localhost:8080
 
 ## Database
 
-Using H2 In-Memory Database.
+Using H2 in-memory database.
 
 H2 Console:
 
@@ -81,9 +79,9 @@ Password:
 admin123
 ```
 
-## Preloaded Data
+## Initial Data
 
-Initial data is loaded using:
+Loaded from:
 
 ```
 src/main/resources/data.sql
@@ -91,97 +89,68 @@ src/main/resources/data.sql
 
 Sample:
 
-Parking Lot:
-
 ```
-LOT001
-Location: MANILA
-Capacity: 10
-```
+LOT001 - MANILA - Capacity 10
 
-Vehicles:
-
-```
 ABC-123 - Car
 XYZ-999 - Truck
 ```
 
 ## API Endpoints
 
-### Register Parking Lot
+| Method | Endpoint                            | Description          |
+| ------ | ----------------------------------- | -------------------- |
+| POST   | /api/lots                           | Register parking lot |
+| POST   | /api/vehicles                       | Register vehicle     |
+| POST   | /api/vehicles/{plate}/checkin/{lot} | Check-in             |
+| POST   | /api/vehicles/{plate}/checkout      | Check-out            |
+| GET    | /api/lots/{id}                      | View occupancy       |
+| GET    | /api/lots/{id}/vehicles             | View parked vehicles |
 
-POST
-
-```
-/api/lots
-```
-
-Example:
-
-```json
-{
-  "lotId":"LOT002",
-  "location":"MAKATI",
-  "capacity":5
-}
-```
-
-### Register Vehicle
-
-POST
-
-```
-/api/vehicles
-```
-
-### Check-in Vehicle
-
-POST
-
-```
-/api/vehicles/{plate}/checkin/{lot}
-```
-
-### Check-out Vehicle
-
-POST
-
-```
-/api/vehicles/{plate}/checkout
-```
-
-### View Parking Lot
-
-GET
-
-```
-/api/lots/{id}
-```
-
-### View Vehicles in Lot
-
-GET
-
-```
-/api/lots/{id}/vehicles
-```
-
-## Business Rules Implemented
+## Rules Implemented
 
 * Cannot park when lot is full
 * Vehicle can only be parked in one lot
-* Occupied spaces update during check-in/check-out
-* Available spaces are calculated automatically
-* Validation for license plate, owner name, and vehicle type
+* Occupied spaces update automatically
+* Available spaces calculated automatically
+* Validation for:
+
+  * License plate
+  * Owner name
+  * Vehicle type
 
 ## Testing
 
-APIs tested using Postman.
+### Unit Test
+
+JUnit tests included.
+
+Run:
+
+```bash
+mvn test
+```
+
+Covered:
+
+* Application startup
+* License plate validation
+* Owner name validation
+* Vehicle type validation
+
+### API Test
+
+Postman collection included:
+
+```
+SmartPark.postman_collection.json
+```
 
 Tested:
 
-* Successful requests
+* Register parking lot
+* Register vehicle
+* Check-in/check-out
 * Validation errors
 * Duplicate records
-* Full parking lot
-* Check-in/check-out flow
+* Full parking lot scenario
